@@ -79,7 +79,7 @@ class Level:
     def draw_path(self, screen):
         pygame.draw.lines(screen, (0, 128, 0), False, self.game.settings.enemy_path, 5)
         for pos in self.game.settings.tower_positions:
-            pygame.draw.circle(screen, (128, 0, 0), pos, 10)
+            pygame.draw.circle(screen, (128, 0, 0), pos, 0)
 
     def draw(self, screen):
         self.draw_path(screen)
