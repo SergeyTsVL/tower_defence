@@ -16,6 +16,10 @@ class Enemy(pygame.sprite.Sprite):
         self.health = health
         self.position = Vector2(path[0])
         self.rect.center = self.position
+        pygame.init()
+        pygame.mixer.init()
+        pygame.mixer.music.load('assets/sounds/background_music.mp3')
+        pygame.mixer.music.play()
 
     def take_damage(self, amount):
         self.health -= amount
@@ -23,7 +27,9 @@ class Enemy(pygame.sprite.Sprite):
             self.kill()
 
     def update(self):
+
         if self.path_index < len(self.path) - 1:
+
             start_point = Vector2(self.path[self.path_index])
             end_point = Vector2(self.path[self.path_index + 1])
             direction = (end_point - start_point).normalize()
@@ -35,5 +41,6 @@ class Enemy(pygame.sprite.Sprite):
                 self.path_index += 1
 
             if self.path_index >= len(self.path) - 1:
+
                 self.game.game_over()
                 self.kill()

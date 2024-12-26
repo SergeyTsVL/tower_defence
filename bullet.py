@@ -1,6 +1,11 @@
 import pygame
 from pygame.math import Vector2
 
+import settings
+
+
+# from settings import shoot_sound
+
 
 class Bullet(pygame.sprite.Sprite):
     def __init__(self, start_pos, target_pos, damage, game):
@@ -17,6 +22,10 @@ class Bullet(pygame.sprite.Sprite):
     def calculate_velocity(self):
         direction = (self.target - self.position).normalize()
         velocity = direction * self.speed
+        pygame.init()
+        pygame.mixer.init()
+        pygame.mixer.music.load('assets/sounds/shoot.wav')
+        pygame.mixer.music.play()
         return velocity
 
     def update(self):
