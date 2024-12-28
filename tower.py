@@ -2,8 +2,8 @@ import pygame
 from bullet import Bullet
 import math
 from settings import Settings
-import time
 
+A = 0
 class Tower(pygame.sprite.Sprite):
     def __init__(self, position, game):
         super().__init__()
@@ -35,18 +35,12 @@ class Tower(pygame.sprite.Sprite):
             screen.blit(upgrade_cost_text, upgrade_cost_pos)
 
     def update(self, enemies, current_time, bullets_group):
-
-
-        # print(4444444444444)
-        # if self.settings:
-        c = MoneyTower
-        c.shoot(self)
-            # print(555555555555555555555)
-
+        self.game.settings.starting_money += 0.1
 
         if current_time - self.last_shot_time > self.rate_of_fire:
             target = self.find_target(enemies)
             if target:
+
                 self.rotate_towards_target(target)
                 self.shoot(target, bullets_group)
                 self.last_shot_time = current_time
@@ -121,24 +115,8 @@ class SniperTower(Tower):
         new_bullet = Bullet(self.position, target.position, self.damage, self.game)
         bullets_group.add(new_bullet)
 
-# class MoneyTower(Tower, Settings):
-#     def __init__(self, position, game):
-#         super().__init__(position, game)
-#         self.image = pygame.image.load('assets/towers/money_factory.png').convert_alpha()
-#         self.original_image = self.image
-#         self.rect = self.image.get_rect(center=self.position)
-#         # self.tower_range = 150
-#         self.damage = 20
-#         self.settings = Settings()
-#
-#     def shoot(self):
-#         if self.settings:
-#             while True:
-#                 self.settings.starting_money += 21
-#                 print(self.settings.starting_money)
-#                 time.sleep(1)
-
 class MoneyTower(Tower, Settings):
+
     def __init__(self, position, game):
         super().__init__(position, game)
         self.image = pygame.image.load('assets/towers/money_factory.png').convert_alpha()
@@ -146,12 +124,6 @@ class MoneyTower(Tower, Settings):
         self.rect = self.image.get_rect(center=self.position)
         self.damage = 20
         self.settings = Settings()
-
-    def shoot(self):
-        if self.settings:
-            self.settings.starting_money += 0.5
-            print(f"Money increased: {self.settings.starting_money}")
-
 
 
 

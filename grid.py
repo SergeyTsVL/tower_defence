@@ -1,8 +1,6 @@
 import pygame
 import keyboard
 
-from tower import MoneyTower
-
 
 class Grid:
     def __init__(self, game):

@@ -1,4 +1,3 @@
-
 class Settings:
     def __init__(self):
         self.screen_width = 1200
@@ -39,6 +38,3 @@ class Settings:
         self.tower_positions = [(x * self.grid_size[0] + self.grid_size[0] // 2, y * self.grid_size[1] + self.grid_size[1] // 2)
                                 for x in range(1, self.cols) for y in range(3, self.rows)]
 
-    # def ff(self):
-    #     # print(self.starting_money)
-    #     return self.starting_money

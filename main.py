@@ -1,5 +1,7 @@
 import pygame
 import sys
+
+import tower
 from settings import Settings
 from level import Level
 from grid import Grid
@@ -81,7 +83,7 @@ class TowerDefenseGame:
             self.level.draw(self.screen)
             self.grid.draw()
 
-            money_text = self.font.render(f"Money: ${self.settings.starting_money}", True, (255, 255, 255))
+            money_text = self.font.render(f"Money: ${round(self.settings.starting_money)}", True, (255, 255, 255))
             tower_text = self.font.render(
                 f"Selected Tower: {self.selected_tower_type if self.selected_tower_type else 'None'}", True,
                 (255, 255, 255))

@@ -1,11 +1,6 @@
 import pygame
 from pygame.math import Vector2
 
-import settings
-
-
-# from settings import shoot_sound
-
 
 class Bullet(pygame.sprite.Sprite):
     def __init__(self, start_pos, target_pos, damage, game):
