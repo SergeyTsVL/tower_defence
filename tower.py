@@ -110,3 +110,17 @@ class SniperTower(Tower):
     def shoot(self, target, bullets_group):
         new_bullet = Bullet(self.position, target.position, self.damage, self.game)
         bullets_group.add(new_bullet)
+
+class MoneyTower(Tower):
+    def __init__(self, position, game):
+        super().__init__(position, game)
+        self.image = pygame.image.load('assets/towers/money_factory.png').convert_alpha()
+        self.original_image = self.image
+        self.rect = self.image.get_rect(center=self.position)
+        self.tower_range = 150
+        self.damage = 20
+        self.rate_of_fire = 1000
+
+    # def shoot(self, target, bullets_group):
+    #     new_bullet = Bullet(self.position, target.position, self.damage, self.game)
+    #     bullets_group.add(new_bullet)

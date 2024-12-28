@@ -41,9 +41,12 @@ class TowerDefenseGame:
                 if event.key == pygame.K_1:
                     self.selected_tower_type = 'basic'
                     print("Selected basic tower.")
-                elif event.key == pygame.K_2:
+                if event.key == pygame.K_2:
                     self.selected_tower_type = 'sniper'
                     print("Selected sniper tower.")
+                if event.key == pygame.K_3:
+                    self.selected_tower_type = 'money'
+                    print("Selected money tower.")
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 if self.selected_tower_type:
                     mouse_pos = pygame.mouse.get_pos()
