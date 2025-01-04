@@ -35,7 +35,9 @@ class Tower(pygame.sprite.Sprite):
             screen.blit(upgrade_cost_text, upgrade_cost_pos)
 
     def update(self, enemies, current_time, bullets_group):
-        self.game.settings.starting_money += 0.1
+        for tower in self.game.level.towers:
+            if type(tower).__name__ == 'MoneyTower':
+                self.game.settings.starting_money += 0.1
 
         if current_time - self.last_shot_time > self.rate_of_fire:
             target = self.find_target(enemies)
@@ -124,6 +126,8 @@ class MoneyTower(Tower, Settings):
         self.rect = self.image.get_rect(center=self.position)
         self.damage = 20
         self.settings = Settings()
+
+
 
 
 
