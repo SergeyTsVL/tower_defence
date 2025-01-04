@@ -89,7 +89,7 @@ class TowerDefenseGame:
                 (255, 255, 255))
             waves_text = self.font.render(f"Waves Left: {len(self.level.waves) - self.level.current_wave}", True,
                                           (255, 255, 255))
-            enemies_text = self.font.render(f"Enemies Left: {len(self.level.enemies)}", True, (255, 255, 255))
+            enemies_text = self.font.render(f"Enemies Left: {len(self.level.enemies1)}", True, (255, 255, 255))
 
             self.screen.blit(money_text, (10, 10))
             self.screen.blit(tower_text, (10, 40))
@@ -106,7 +106,7 @@ class TowerDefenseGame:
             self._check_events()
             self._update_game()
 
-            if len(self.level.enemies) == 0 and not self.level.all_waves_complete:
+            if len(self.level.enemies1) == 0 and not self.level.all_waves_complete:
                 self.level.start_next_wave()
 
             self._draw()

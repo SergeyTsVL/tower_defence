@@ -1,12 +1,14 @@
 import pygame
 from enemy import Enemy
 from tower import BasicTower, SniperTower, MoneyTower
+import random
 
 
+enemies_random = random.randint(1, 2)
 class Level:
     def __init__(self, game):
         self.game = game
-        self.enemies = pygame.sprite.Group()
+        self.enemies1 = pygame.sprite.Group()
         self.enemies2 = pygame.sprite.Group()
         self.towers = pygame.sprite.Group()
         self.bullets = pygame.sprite.Group()
@@ -42,7 +44,7 @@ class Level:
         if self.spawned_enemies < len(self.waves[self.current_wave]):
             enemy_info = self.waves[self.current_wave][self.spawned_enemies]
             new_enemy = Enemy(**enemy_info, game=self.game)
-            self.enemies.add(new_enemy)
+            self.enemies1.add(new_enemy)
             self.spawned_enemies += 1
 
 
@@ -75,7 +77,7 @@ class Level:
                 enemy_info = self.waves[self.current_wave][self.spawned_enemies].copy()
                 enemy_info['game'] = self.game
                 new_enemy = Enemy(**enemy_info)
-                self.enemies.add(new_enemy)
+                self.enemies1.add(new_enemy)
                 self.spawned_enemies += 1
                 self.last_spawn_time = current_time
 
@@ -88,7 +90,7 @@ class Level:
                 self.spawned_enemies2 += 1
                 self.last_spawn_time = current_time
 
-        collisions = pygame.sprite.groupcollide(self.bullets, self.enemies, True, False)
+        collisions = pygame.sprite.groupcollide(self.bullets, self.enemies1, True, False)
         for bullet in collisions:
             for enemy in collisions[bullet]:
                 enemy.take_damage(bullet.damage)
@@ -98,18 +100,18 @@ class Level:
             for enemy in collisions2[bullet]:
                 enemy.take_damage(bullet.damage)
 
-        self.enemies.update()
+        self.enemies1.update()
         self.enemies2.update()
         for tower in self.towers:
-            tower.update(self.enemies, current_time, self.bullets)
+            tower.update(self.enemies1, current_time, self.bullets)
         for tower in self.towers:
             tower.update(self.enemies2, current_time, self.bullets)
         self.bullets.update()
 
-        if len(self.enemies) == 0 and self.current_wave < len(self.waves) - 1:
+        if len(self.enemies1) == 0 and self.current_wave < len(self.waves) - 1:
             self.current_wave += 1
             self.start_next_wave()
-        elif len(self.enemies) == 0 and self.current_wave == len(self.waves) - 1:
+        elif len(self.enemies1) == 0 and self.current_wave == len(self.waves) - 1:
             self.all_waves_complete = True
 
         if len(self.enemies2) == 0 and self.current_wave2 < len(self.waves2) - 1:
@@ -131,8 +133,10 @@ class Level:
     def draw(self, screen):
         self.draw_path(screen)
         self.draw_path2(screen)
-        self.enemies.draw(screen)
-        self.enemies2.draw(screen)
+        if enemies_random == 1:
+            self.enemies1.draw(screen)
+        else:
+            self.enemies2.draw(screen)
         self.towers.draw(screen)
         self.bullets.draw(screen)
         mouse_pos = pygame.mouse.get_pos()
