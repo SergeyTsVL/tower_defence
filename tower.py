@@ -3,7 +3,8 @@ from bullet import Bullet
 import math
 from settings import Settings
 
-A = 0
+a = 0
+b = 0
 class Tower(pygame.sprite.Sprite):
     def __init__(self, position, game):
         super().__init__()
@@ -85,15 +86,24 @@ class BasicTower(Tower):
         self.original_image = self.image
         self.rect = self.image.get_rect(center=self.position)
         self.rate_of_fire = 1000
-        self.tower_range = 150
-        self.damage = 20
-        print(1111111111111)
-        # print(pygame.mouse.get_pressed()[0])
+
         if self.game.selected_tower_type == 'basic_level_2':
             print(2222222222222)
-            self.tower_range += 50
-            self.damage += 41111
-            self.level = 211
+            global a
+            a += 50
+            global b
+            b += 4
+            self.damage += 4
+            self.level += 1
+            print('a', a)
+            print('b', b)
+            self.tower_range = 150 + a
+            self.damage = 20 + b
+        else:
+            self.tower_range = 150
+            self.damage = 20
+        print(self.game.selected_tower_type)
+
     def shoot(self, target, bullets_group):
         new_bullet = Bullet(self.position, target.position, self.damage, self.game)
         bullets_group.add(new_bullet)
