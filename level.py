@@ -56,7 +56,7 @@ class Level:
             self.spawned_enemies2 += 1
 
     def attempt_place_tower(self, mouse_pos, tower_type):
-        tower_classes = {'basic': BasicTower, 'sniper': SniperTower, 'money': MoneyTower}
+        tower_classes = {'basic': BasicTower, 'sniper': SniperTower, 'money': MoneyTower, 'basic_level_2': BasicTower}
         if tower_type in tower_classes and self.game.settings.starting_money >= self.game.settings.tower_cost:
             grid_pos = self.game.grid.get_grid_position(mouse_pos)
             if self.game.grid.is_spot_available(grid_pos):
@@ -124,9 +124,6 @@ class Level:
 
     def draw_path2(self, screen):
         pygame.draw.lines(screen, (0, 128, 0), False, self.game.settings.enemy_path2, 5)
-
-
-
         for pos in self.game.settings.tower_positions:
             pygame.draw.circle(screen, (128, 0, 0), pos, 0)
 

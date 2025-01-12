@@ -37,7 +37,7 @@ class Tower(pygame.sprite.Sprite):
     def update(self, enemies, current_time, bullets_group):
         for tower in self.game.level.towers:
             if type(tower).__name__ == 'MoneyTower':
-                self.game.settings.starting_money += 0.1
+                self.game.settings.starting_money += 0.05
 
         if current_time - self.last_shot_time > self.rate_of_fire:
             target = self.find_target(enemies)
@@ -84,10 +84,16 @@ class BasicTower(Tower):
         self.image = pygame.image.load('assets/towers/basic_tower.png').convert_alpha()
         self.original_image = self.image
         self.rect = self.image.get_rect(center=self.position)
+        self.rate_of_fire = 1000
         self.tower_range = 150
         self.damage = 20
-        self.rate_of_fire = 1000
-
+        print(1111111111111)
+        # print(pygame.mouse.get_pressed()[0])
+        if self.game.selected_tower_type == 'basic_level_2':
+            print(2222222222222)
+            self.tower_range += 50
+            self.damage += 41111
+            self.level = 211
     def shoot(self, target, bullets_group):
         new_bullet = Bullet(self.position, target.position, self.damage, self.game)
         bullets_group.add(new_bullet)
