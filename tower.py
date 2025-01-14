@@ -3,8 +3,8 @@ from bullet import Bullet
 import math
 from settings import Settings
 
-a = 0
-b = 0
+delta_tower_range = 0
+delta_damage = 0
 class Tower(pygame.sprite.Sprite):
     def __init__(self, position, game):
         super().__init__()
@@ -80,29 +80,28 @@ class Tower(pygame.sprite.Sprite):
 
 
 class BasicTower(Tower):
+    """
+    Устанавливает простую башню, если хотим увеличить уровень нажимаем и удерживаем <Tab>
+    """
     def __init__(self, position, game):
         super().__init__(position, game)
         self.image = pygame.image.load('assets/towers/basic_tower.png').convert_alpha()
         self.original_image = self.image
         self.rect = self.image.get_rect(center=self.position)
         self.rate_of_fire = 1000
-
-        if self.game.selected_tower_type == 'basic_level_2':
-            print(2222222222222)
-            global a
-            a += 50
-            global b
-            b += 4
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_TAB]:
+            global delta_tower_range
+            delta_tower_range += 50
+            global delta_damage
+            delta_damage += 4
             self.damage += 4
             self.level += 1
-            print('a', a)
-            print('b', b)
-            self.tower_range = 150 + a
-            self.damage = 20 + b
+            self.tower_range = 150 + delta_tower_range
+            self.damage = 20 + delta_damage
         else:
             self.tower_range = 150
             self.damage = 20
-        print(self.game.selected_tower_type)
 
     def shoot(self, target, bullets_group):
         new_bullet = Bullet(self.position, target.position, self.damage, self.game)
@@ -110,15 +109,29 @@ class BasicTower(Tower):
 
 
 class SniperTower(Tower):
+    """
+    Устанавливает снайперскую башню, если хотим увеличить уровень нажимаем и удерживаем <Tab>
+    """
     def __init__(self, position, game):
         super().__init__(position, game)
         self.image = pygame.image.load('assets/towers/sniper_tower.png').convert_alpha()
         self.image = pygame.transform.rotate(self.image, 90)
         self.original_image = self.image
         self.rect = self.image.get_rect(center=self.position)
-        self.tower_range = 300
-        self.damage = 40
         self.rate_of_fire = 2000
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_TAB]:
+            global delta_tower_range
+            delta_tower_range += 50
+            global delta_damage
+            delta_damage += 4
+            self.damage += 4
+            self.level += 1
+            self.tower_range = 150 + delta_tower_range
+            self.damage = 20 + delta_damage
+        else:
+            self.tower_range = 300
+            self.damage = 40
 
     def find_target(self, enemies):
         healthiest_enemy = None
