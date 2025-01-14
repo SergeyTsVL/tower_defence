@@ -1,5 +1,5 @@
 import pygame
-import keyboard
+# import keyboard
 
 
 class Grid:
@@ -14,12 +14,14 @@ class Grid:
         pass
 
     def draw(self):
-        if keyboard.is_pressed("space"):
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_SPACE]:
             for spot in self.available_spots:
                 pygame.draw.circle(self.screen, (0, 255, 0), spot, 15, 2)
                 pygame.draw.circle(self.screen, (128, 0, 0), spot, 10, 10)
         else:
             None
+
 
     def place_tower(self, tower=None):
         grid_pos = self.get_grid_position(tower.position)
