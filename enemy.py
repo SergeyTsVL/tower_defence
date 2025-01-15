@@ -24,6 +24,7 @@ class Enemy(pygame.sprite.Sprite):
     def take_damage(self, amount):
         self.health -= amount
         if self.health <= 0:
+            self.game.settings.starting_money += 50
             self.kill()
 
     def update(self):

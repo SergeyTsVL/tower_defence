@@ -15,12 +15,16 @@ class Level:
         self.waves = [
             [{'path': self.game.settings.enemy_path, 'speed': 1, 'health': 100, 'image_path': 'assets/enemies/basic_enemy.png'}] * 5,
             [{'path': self.game.settings.enemy_path, 'speed': 1.5, 'health': 150, 'image_path': 'assets/enemies/fast_enemy.png'}] * 7,
-            [{'path': self.game.settings.enemy_path, 'speed': 0.75, 'health': 200, 'image_path': 'assets/enemies/strong_enemy.png'}] * 4,
+            [{'path': self.game.settings.enemy_path, 'speed': 3, 'health': 200, 'image_path': 'assets/enemies/strong_enemy.png'}] * 4,
+            [{'path': self.game.settings.enemy_path, 'speed': 4, 'health': 1000,
+              'image_path': 'assets/enemies/555.jpg'}] * 8,
         ]
         self.waves2 = [
             [{'path': self.game.settings.enemy_path2, 'speed': 1, 'health': 100, 'image_path': 'assets/enemies/basic_enemy.png'}] * 5,
             [{'path': self.game.settings.enemy_path2, 'speed': 1.5, 'health': 150, 'image_path': 'assets/enemies/fast_enemy.png'}] * 7,
-            [{'path': self.game.settings.enemy_path2, 'speed': 0.75, 'health': 200, 'image_path': 'assets/enemies/strong_enemy.png'}] * 4,
+            [{'path': self.game.settings.enemy_path2, 'speed': 3, 'health': 200, 'image_path': 'assets/enemies/strong_enemy.png'}] * 4,
+            [{'path': self.game.settings.enemy_path, 'speed': 4, 'health': 1000,
+              'image_path': 'assets/enemies/555.jpg'}] * 8,
         ]
         self.current_wave = 0
         self.current_wave2 = 0
@@ -67,7 +71,7 @@ class Level:
             else:
                 print("Invalid position for tower.")
         else:
-            print("Not enough money or unknown tower type.")
+            print("  .")
 
     def update(self):
         current_time = pygame.time.get_ticks()
