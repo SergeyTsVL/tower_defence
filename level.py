@@ -40,12 +40,15 @@ class Level:
         if self.current_wave < len(self.waves2):
             self.spawned_enemies = 0
             self.spawn_next_enemy()
+
         if self.current_wave2 < len(self.waves2):
             self.spawned_enemies2 = 0
             self.spawn_next_enemy2()
 
+
+
     def spawn_next_enemy(self):
-        if self.spawned_enemies < len(self.waves[self.current_wave]):
+        if self.spawned_enemies * 5 < len(self.waves[self.current_wave]):
             enemy_info = self.waves[self.current_wave][self.spawned_enemies]
             new_enemy = Enemy(**enemy_info, game=self.game)
             self.enemies1.add(new_enemy)
@@ -53,7 +56,7 @@ class Level:
 
 
     def spawn_next_enemy2(self):
-        if self.spawned_enemies2 < len(self.waves2[self.current_wave2]):
+        if self.spawned_enemies2 * 5 < len(self.waves2[self.current_wave2]):
             enemy_info = self.waves2[self.current_wave2][self.spawned_enemies2]
             new_enemy = Enemy(**enemy_info, game=self.game)
             self.enemies2.add(new_enemy)
