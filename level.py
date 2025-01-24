@@ -8,24 +8,25 @@ enemies_random = random.randint(1, 2)
 class Level:
     def __init__(self, game):
         self.game = game
+        self.news_waves = 40
         self.enemies1 = pygame.sprite.Group()
         self.enemies2 = pygame.sprite.Group()
         self.towers = pygame.sprite.Group()
         self.bullets = pygame.sprite.Group()
         self.waves = [
-            [{'path': self.game.settings.enemy_path, 'speed': 1, 'health': 100, 'image_path': 'assets/enemies/basic_enemy.png'}] * 5,
-            [{'path': self.game.settings.enemy_path, 'speed': 1.5, 'health': 150, 'image_path': 'assets/enemies/fast_enemy.png'}] * 7,
-            [{'path': self.game.settings.enemy_path, 'speed': 3, 'health': 200, 'image_path': 'assets/enemies/strong_enemy.png'}] * 4,
-            [{'path': self.game.settings.enemy_path, 'speed': 4, 'health': 1000,
-              'image_path': 'assets/enemies/555.jpg'}] * 8,
-        ]
+            [{'path': self.game.settings.enemy_path, 'speed': 1, 'health': 100, 'image_path': 'assets/enemies/basic_enemy.png'}] * 1,
+            [{'path': self.game.settings.enemy_path, 'speed': 1.5, 'health': 150, 'image_path': 'assets/enemies/fast_enemy.png'}] * 1,
+            [{'path': self.game.settings.enemy_path, 'speed': 3, 'health': 200, 'image_path': 'assets/enemies/strong_enemy.png'}] * 1,
+            [{'path': self.game.settings.enemy_path, 'speed': 4, 'health': 100,
+              'image_path': 'assets/enemies/555.jpg'}] * 1,
+        ] * self.news_waves
         self.waves2 = [
-            [{'path': self.game.settings.enemy_path2, 'speed': 1, 'health': 100, 'image_path': 'assets/enemies/basic_enemy.png'}] * 5,
-            [{'path': self.game.settings.enemy_path2, 'speed': 1.5, 'health': 150, 'image_path': 'assets/enemies/fast_enemy.png'}] * 7,
-            [{'path': self.game.settings.enemy_path2, 'speed': 3, 'health': 200, 'image_path': 'assets/enemies/strong_enemy.png'}] * 4,
-            [{'path': self.game.settings.enemy_path, 'speed': 4, 'health': 1000,
-              'image_path': 'assets/enemies/555.jpg'}] * 8,
-        ]
+            [{'path': self.game.settings.enemy_path2, 'speed': 1, 'health': 100, 'image_path': 'assets/enemies/basic_enemy.png'}] * 1,
+            [{'path': self.game.settings.enemy_path2, 'speed': 1.5, 'health': 150, 'image_path': 'assets/enemies/fast_enemy.png'}] * 1,
+            [{'path': self.game.settings.enemy_path2, 'speed': 3, 'health': 200, 'image_path': 'assets/enemies/strong_enemy.png'}] * 1,
+            [{'path': self.game.settings.enemy_path, 'speed': 4, 'health': 100,
+              'image_path': 'assets/enemies/555.jpg'}] * 1,
+        ] * self.news_waves
         self.current_wave = 0
         self.current_wave2 = 0
         self.spawned_enemies = 0
@@ -34,29 +35,26 @@ class Level:
         self.last_spawn_time = pygame.time.get_ticks()
         self.all_waves_complete = False
         self.start_next_wave()
+
         self.font = pygame.font.SysFont("Arial", 24)
 
     def start_next_wave(self):
-        if self.current_wave < len(self.waves2):
+        if self.current_wave < len(self.waves2) * 20:
             self.spawned_enemies = 0
             self.spawn_next_enemy()
-
-        if self.current_wave2 < len(self.waves2):
+        if self.current_wave2 < len(self.waves2) * 20:
             self.spawned_enemies2 = 0
             self.spawn_next_enemy2()
 
-
-
     def spawn_next_enemy(self):
-        if self.spawned_enemies * 5 < len(self.waves[self.current_wave]):
+        if self.spawned_enemies < len(self.waves[self.current_wave]):
             enemy_info = self.waves[self.current_wave][self.spawned_enemies]
             new_enemy = Enemy(**enemy_info, game=self.game)
             self.enemies1.add(new_enemy)
             self.spawned_enemies += 1
 
-
     def spawn_next_enemy2(self):
-        if self.spawned_enemies2 * 5 < len(self.waves2[self.current_wave2]):
+        if self.spawned_enemies2 < len(self.waves2[self.current_wave2]):
             enemy_info = self.waves2[self.current_wave2][self.spawned_enemies2]
             new_enemy = Enemy(**enemy_info, game=self.game)
             self.enemies2.add(new_enemy)
@@ -78,7 +76,6 @@ class Level:
 
     def update(self):
         current_time = pygame.time.get_ticks()
-
         if self.current_wave < len(self.waves) and self.spawned_enemies < len(self.waves[self.current_wave]):
             if current_time - self.last_spawn_time > self.spawn_delay:
                 enemy_info = self.waves[self.current_wave][self.spawned_enemies].copy()
