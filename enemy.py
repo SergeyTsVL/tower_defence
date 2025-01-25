@@ -3,6 +3,9 @@ from pygame.math import Vector2
 
 
 class Enemy(pygame.sprite.Sprite):
+    """
+    Класс определяет врагов
+    """
     def __init__(self, path, speed=2, health=10, image_path=None, game = None):
 
         super().__init__()
@@ -22,13 +25,21 @@ class Enemy(pygame.sprite.Sprite):
         pygame.mixer.music.play()
 
     def take_damage(self, amount):
+        """
+        Принимает повреждение и умирает враг
+        :param amount:
+        :return:
+        """
         self.health -= amount
         if self.health <= 0:
             self.game.settings.starting_money += 50
             self.kill()
 
     def update(self):
-
+        """
+        Обновляет врагов для отображения их движения
+        :return:
+        """
         if self.path_index < len(self.path) - 1:
 
             start_point = Vector2(self.path[self.path_index])

@@ -6,6 +6,10 @@ from settings import Settings
 delta_tower_range = 0
 delta_damage = 0
 class Tower(pygame.sprite.Sprite):
+    """
+    Базовый класс для всех башен, его методы включают инициализацию, отрисовку, обновление, стрельбу, поворот к цели
+    и поиск цели.
+    """
     def __init__(self, position, game):
         super().__init__()
         self.position = pygame.math.Vector2(position)
@@ -21,9 +25,18 @@ class Tower(pygame.sprite.Sprite):
         self.original_image = self.image
 
     def upgrade_cost(self):
+        """
+        Cтоимость обновления
+        :return:
+        """
         return 100 * self.level
 
     def draw(self, screen):
+        """
+        Отрисовка и определение позиции текста
+        :param screen:
+        :return:
+        """
         mouse_pos = pygame.mouse.get_pos()
         if self.is_hovered(mouse_pos):
             level_text = self.game.font.render(f"Level: {self.level}", True, (255, 255, 255))
@@ -36,6 +49,13 @@ class Tower(pygame.sprite.Sprite):
             screen.blit(upgrade_cost_text, upgrade_cost_pos)
 
     def update(self, enemies, current_time, bullets_group):
+        """
+        Обновление
+        :param enemies:
+        :param current_time:
+        :param bullets_group:
+        :return:
+        """
         for tower in self.game.level.towers:
             if type(tower).__name__ == 'MoneyTower':
                 self.game.settings.starting_money += 0.05
@@ -49,12 +69,22 @@ class Tower(pygame.sprite.Sprite):
                 self.last_shot_time = current_time
 
     def is_hovered(self, mouse_pos):
+        """
+        Витание
+        :param mouse_pos:
+        :return:
+        """
         return self.rect.collidepoint(mouse_pos)
 
     def shoot(self, target, bullets_group):
         pass
 
     def rotate_towards_target(self, target):
+        """
+        Поворот к цели
+        :param target:
+        :return:
+        """
         dx = target.position.x - self.position.x
         dy = target.position.y - self.position.y
         # Вычисляем угол в радианах
@@ -66,6 +96,11 @@ class Tower(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(center=self.position)
 
     def find_target(self, enemies):
+        """
+        Ищет цель
+        :param enemies:
+        :return:
+        """
         nearest_enemy = None
         min_distance = float('inf')
         for enemy in enemies:
@@ -147,7 +182,9 @@ class SniperTower(Tower):
         bullets_group.add(new_bullet)
 
 class MoneyTower(Tower, Settings):
-
+    """
+    Башня, которая добавляет деньги
+    """
     def __init__(self, position, game):
         super().__init__(position, game)
         self.image = pygame.image.load('assets/towers/money_factory.png').convert_alpha()

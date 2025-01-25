@@ -3,6 +3,9 @@ from pygame.math import Vector2
 
 
 class Bullet(pygame.sprite.Sprite):
+    """
+    Отображает поведение пули
+    """
     def __init__(self, start_pos, target_pos, damage, game):
         super().__init__()
         self.game = game
@@ -15,6 +18,10 @@ class Bullet(pygame.sprite.Sprite):
         self.velocity = self.calculate_velocity()
 
     def calculate_velocity(self):
+        """
+        Определяет скорость пули
+        :return:
+        """
         direction = (self.target - self.position).normalize()
         velocity = direction * self.speed
         pygame.init()
@@ -30,4 +37,9 @@ class Bullet(pygame.sprite.Sprite):
             self.kill()
 
     def is_position_inside(self, pos):
+        """
+        Отображает положение внутри
+        :param pos:
+        :return:
+        """
         return 0 <= pos.x <= self.game.settings.screen_width and 0 <= pos.y <= self.game.settings.screen_height

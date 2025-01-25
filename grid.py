@@ -3,7 +3,14 @@ import pygame
 
 
 class Grid:
+    """
+    Отвечает за сетку, где игрок может размещать башни.
+    """
     def __init__(self, game):
+        """
+        Инициализирует сетку.
+        :param game:
+        """
         self.game = game
         self.settings = game.settings
         self.screen = game.screen
@@ -11,9 +18,17 @@ class Grid:
         self.towers = []
 
     def update(self):
+        """
+        Может использоваться для обновления сетки.
+        :return:
+        """
         pass
 
     def draw(self):
+        """
+         Отображает сетку на экране.
+        :return:
+        """
         keys = pygame.key.get_pressed()
         if keys[pygame.K_SPACE]:
             for spot in self.available_spots:
@@ -24,6 +39,11 @@ class Grid:
 
 
     def place_tower(self, tower=None):
+        """
+        Размещает башню на сетке.
+        :param tower:
+        :return:
+        """
         grid_pos = self.get_grid_position(tower.position)
         if grid_pos in self.available_spots and not any(tower.rect.collidepoint(grid_pos) for tower in self.towers):
             self.towers.append(tower)
@@ -31,11 +51,17 @@ class Grid:
         return False
 
     def remove_tower(self, tower):
+        """
+        Удаляет башню с сетки.
+        :param tower:
+        :return:
+        """
         if tower in self.towers:
             self.towers.remove(tower)
 
     def get_grid_position(self, mouse_pos):
         """
+        Возвращает позицию сетки, ближайшую к позиции курсора.
         Получаем координаты клетки сетки по положению мыши
 
         Args:
@@ -49,4 +75,9 @@ class Grid:
         return grid_x, grid_y
 
     def is_spot_available(self, grid_pos):
+        """
+        Проверяет, доступно ли место для размещения башни.
+        :param grid_pos:
+        :return:
+        """
         return grid_pos in self.available_spots and all(not tower.rect.collidepoint(grid_pos) for tower in self.towers)

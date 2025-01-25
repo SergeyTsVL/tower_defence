@@ -6,13 +6,21 @@ import random
 
 enemies_random = random.randint(1, 2)
 class Level:
+    """
+    Управляет уровнем игры, волнами врагов и расстановкой башен.
+    """
     def __init__(self, game):
+        """
+        Инициализирует уровень игры.
+        :param game:
+        """
         self.game = game
         self.news_waves = 40
         self.enemies1 = pygame.sprite.Group()
         self.enemies2 = pygame.sprite.Group()
         self.towers = pygame.sprite.Group()
         self.bullets = pygame.sprite.Group()
+        # создаем волны для рандомного запуска их по путям
         self.waves = [
             [{'path': self.game.settings.enemy_path, 'speed': 1, 'health': 100, 'image_path': 'assets/enemies/basic_enemy.png'}] * 1,
             [{'path': self.game.settings.enemy_path, 'speed': 1.5, 'health': 150, 'image_path': 'assets/enemies/fast_enemy.png'}] * 1,
@@ -39,6 +47,10 @@ class Level:
         self.font = pygame.font.SysFont("Arial", 24)
 
     def start_next_wave(self):
+        """
+        Запускает следующую волну врагов.
+        :return:
+        """
         if self.current_wave < len(self.waves2) * 20:
             self.spawned_enemies = 0
             self.spawn_next_enemy()
@@ -47,6 +59,10 @@ class Level:
             self.spawn_next_enemy2()
 
     def spawn_next_enemy(self):
+        """
+        Определяет какого типа из списка будет следующий враг идущий по первой линии
+        :return:
+        """
         if self.spawned_enemies < len(self.waves[self.current_wave]):
             enemy_info = self.waves[self.current_wave][self.spawned_enemies]
             new_enemy = Enemy(**enemy_info, game=self.game)
@@ -54,6 +70,10 @@ class Level:
             self.spawned_enemies += 1
 
     def spawn_next_enemy2(self):
+        """
+        Определяет какого типа из списка будет следующий враг идущий по второй линии
+        :return:
+        """
         if self.spawned_enemies2 < len(self.waves2[self.current_wave2]):
             enemy_info = self.waves2[self.current_wave2][self.spawned_enemies2]
             new_enemy = Enemy(**enemy_info, game=self.game)
@@ -61,6 +81,12 @@ class Level:
             self.spawned_enemies2 += 1
 
     def attempt_place_tower(self, mouse_pos, tower_type):
+        """
+        Пытается разместить башню выбранного типа в позиции курсора.
+        :param mouse_pos:
+        :param tower_type:
+        :return:
+        """
         tower_classes = {'basic': BasicTower, 'sniper': SniperTower, 'money': MoneyTower, 'basic_level_2': BasicTower}
         if tower_type in tower_classes and self.game.settings.starting_money >= self.game.settings.tower_cost:
             grid_pos = self.game.grid.get_grid_position(mouse_pos)
@@ -75,6 +101,10 @@ class Level:
             print("  .")
 
     def update(self):
+        """
+        Непрерывное обновление для отображения элементов игры.
+        :return:
+        """
         current_time = pygame.time.get_ticks()
         if self.current_wave < len(self.waves) and self.spawned_enemies < len(self.waves[self.current_wave]):
             if current_time - self.last_spawn_time > self.spawn_delay:
@@ -124,14 +154,29 @@ class Level:
         elif len(self.enemies2) == 0 and self.current_wave2 == len(self.waves2) - 1:
             self.all_waves_complete = True
     def draw_path(self, screen):
+        """
+        Отображает 1 путь врагов.
+        :param screen:
+        :return:
+        """
         pygame.draw.lines(screen, (0, 128, 0), False, self.game.settings.enemy_path, 5)
 
     def draw_path2(self, screen):
+        """
+        Отображает 2 путь врагов.
+        :param screen:
+        :return:
+        """
         pygame.draw.lines(screen, (0, 128, 0), False, self.game.settings.enemy_path2, 5)
         for pos in self.game.settings.tower_positions:
             pygame.draw.circle(screen, (128, 0, 0), pos, 0)
 
     def draw(self, screen):
+        """
+        Отрисовывает уровень, включая врагов, башни и пули.
+        :param screen:
+        :return:
+        """
         self.draw_path(screen)
         self.draw_path2(screen)
         if enemies_random == 1:
